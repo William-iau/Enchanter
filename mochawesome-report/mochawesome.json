@@ -1,0 +1,104 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2024-08-21T02:54:12.694Z",
+    "end": "2024-08-21T02:54:27.897Z",
+    "duration": 15203,
+    "testsRegistered": 1,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "ce3555e1-0e06-4a52-9d46-832c517a022b",
+      "title": "",
+      "fullFile": "cypress\\e2e\\fifthrun.cy.js",
+      "file": "cypress\\e2e\\fifthrun.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "5b2bb8bc-db8e-421e-94a0-43e6e64438f9",
+          "title": "Login Test and Verify Result with Multiple Redirects",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should navigate to the login page, perform login, handle multiple redirects, and verify result",
+              "fullTitle": "Login Test and Verify Result with Multiple Redirects should navigate to the login page, perform login, handle multiple redirects, and verify result",
+              "timedOut": null,
+              "duration": 15018,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Set the viewport to full screen\ncy.viewport(1920, 1080);\n// Visit the initial page with a custom User-Agent\ncy.visit('https://mydev.igenchat.co/en', {\n  headers: {\n    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'\n  }\n}).then(() => {\n  cy.log('Visited initial page with custom User-Agent');\n});\n// Wait for the login button to appear and then click it\ncy.get('[data-cy=\"login-button\"]', {\n  timeout: 10000\n}).should('be.visible').click().then(() => {\n  cy.log('Clicked navigation button to login page');\n});\n// Use cy.origin to interact with elements on the new domain after the redirect\ncy.origin('https://dev-immfg7q8ihx56zyx.au.auth0.com', () => {\n  // The redirect should naturally bring the test into this domain\n  // Ensure the login page is fully loaded\n  cy.url().should('include', '/u/login').then(() => {\n    cy.log('URL changed to login page');\n  });\n  // Perform login action\n  cy.get('#username').type('william@iauconsultingservices.com');\n  cy.get('#password').type('Lagos123*');\n  cy.get('button[type=\"submit\"]').click().then(() => {\n    cy.log('Login button clicked');\n  });\n});\n// Handle multiple redirects after login\ncy.url().should('include', '/auth/callback').then(() => {\n  cy.log('Redirected to auth callback URL');\n});\ncy.url().should('include', '/auth/processing').then(() => {\n  cy.log('Redirected to auth processing URL');\n});\ncy.url().should('include', '/en/chatbot-panel').then(() => {\n  cy.log('Successfully navigated to chatbot panel');\n});\n// Interact with elements on the chatbot panel page\ncy.wait(10000); // Wait for 10 seconds\n// Click on the create a chatbot button\ncy.get('.MuiButtonBase-root').click().then(() => {\n  cy.log('Clicked on create chatbot button');\n});\ncy.wait(10000); // Wait for 10 seconds\n// Click on the create by URL button\ncy.get('[data-cy=\"website\"]').click().then(() => {\n  cy.log('Clicked on create by URL button');\n});\ncy.go('back').then(() => {\n  cy.log('Returned to previous page');\n});\ncy.wait(10000); // Wait for 10 seconds\n// Click on the create by uploading file button\ncy.get('[data-cy=\"files\"]').click().then(() => {\n  cy.log('Clicked on create by uploading file button');\n});\ncy.go('back').then(() => {\n  cy.log('Returned to previous page');\n});",
+              "err": {
+                "message": "TypeError: Cannot read properties of undefined (reading '$')",
+                "estack": "TypeError: Cannot read properties of undefined (reading '$')\n    at Context.eval (webpack://mywork/./cypress/e2e/fifthrun.cy.js:24:11)",
+                "diff": null
+              },
+              "uuid": "54c45c9f-9826-4e8d-a75f-6ac5781837fc",
+              "parentUUID": "5b2bb8bc-db8e-421e-94a0-43e6e64438f9",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "54c45c9f-9826-4e8d-a75f-6ac5781837fc"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 15018,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": null,
+      "version": "6.2.0"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+name: IGEN-CHAT Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Cypress tests
+        run: npx cypress run --browser chrome --headless
+
+      - name: Generate Mochawesome report
+        run: npx mochawesome-report-generator generate --reportDir=cypress/reports/mochawesome-report --reportFilename=report
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-report
+          path: cypress/reports/mochawesome-report/
+
+      - name: Send report via email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: Cypress Test Report
+          body: Please find the Cypress test report attached.
+          to: william@iauconsultingservices.com, yoga@iauconsultingservices.com
+          cc: esanjumi@hotmail.co.uk, raja@iauconsultingservices.com
+          bcc: bcc@example.com
+          attachments: |
+            cypress/reports/mochawesome-report/report.html
