@@ -76,7 +76,7 @@ describe('Login Test and Interact with Chatbot Panel', () => {
             cy.wait(10000); // Wait for 10 seconds
 
             cy.get('[data-cy="files"]').click().then(() => {
-                cy.log('Clicked on create by uploading file button');
+                cy.log('Clicked on create by uploading files button');
             });
 
             cy.go('back').then(() => {
