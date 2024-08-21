@@ -6,19 +6,19 @@ const path = require('path');
 module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      // Handle Mochawesome report generation after tests are run
-      on('after:run', () => {
-        const reportJson = path.join('cypress/reports/mochawesome-report', 'report.json');
+      // Implement node event listeners here
+      on('after:run', (results) => {
+        // Define the report directory and file paths
+        const reportDir = path.join(__dirname, 'cypress', 'reports', 'mochawesome-report');
+        const reportJson = path.join(reportDir, 'report.json');
+
         if (fs.existsSync(reportJson)) {
-          mochawesomeReportGenerator.create(reportJson, {
-            reportDir: 'cypress/reports/mochawesome-report',
-            reportFilename: 'report'
-          });
+          mochawesomeReportGenerator.create(reportJson, { reportDir });
+        } else {
+          console.error('Mochawesome JSON report not found.');
         }
       });
     },
-    baseUrl: 'https://mydev.igenchat.co',
-    experimentalSessionAndOrigin: true,
     reporter: 'mochawesome',
     reporterOptions: {
       reportDir: 'cypress/reports/mochawesome-report',
@@ -27,10 +27,6 @@ module.exports = defineConfig({
       html: true,
       json: true
     },
-    browser: 'chrome',
-    // Use headless mode
-    chromeWebSecurity: false,
-    viewportWidth: 1280,
-    viewportHeight: 720
+    browser: 'chrome'
   },
 });
